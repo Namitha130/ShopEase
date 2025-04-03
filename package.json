@@ -18,6 +18,7 @@
     "redux": "^5.0.1",
     "redux-thunk": "^3.1.0",
     "sass": "^1.83.4",
+    "toaster-ui": "^1.1.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

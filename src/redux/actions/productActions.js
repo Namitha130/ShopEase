@@ -5,7 +5,7 @@ export const getProducts = () => (dispatch) => {
   dispatch({ type: Types.FETCH_PRODUCTS_LOADING });
 
   fakeStoreApi
-    .get("/products?limit=150")
+    .get("/products")
     .then((response) => {
       dispatch({ type: Types.FETCH_PRODUCTS_SUCCESS, payload: response?.data });
     })
@@ -41,24 +41,12 @@ export const removeSelectedProduct = () => {
   };
 };
 
-export const addToWishlist = (product) => (dispatch, getState) => {
-  dispatch({
-    type: Types.ADD_TO_WISHLIST,
-    payload: product,
-  });
-};
 
-export const loadWishlist = () => {
-  return {
-    type: Types.LOAD_WISHLIST,
-    payload: JSON.parse(localStorage.getItem("wishlist")) || [],
-  };
-};
 
 export const getCategoryType = (category) => (dispatch) => {
   dispatch({ type: Types.FETCH_PRODUCTS_LOADING });
   fakeStoreApi
-    .get(`/products/category?type=${category}`)
+    .get(`/products/category/${category}`)
     .then((response) => {
       dispatch({ type: Types.FETCH_PRODUCTS_SUCCESS, payload: response?.data });
     })
@@ -71,13 +59,42 @@ export const getCategoryType = (category) => (dispatch) => {
 };
 
 export const getCategoryList = () => (dispatch) => {
-  fetch("https://fakestoreapi.in/api/products/category")
-    .then((res) => res.json()) // Convert response to JSON
+  
+  fetch("https://fakestoreapi.com/products/categories")
+    .then((res) => res.json()) 
     .then((data) => {
-      console.log("getCategoryList", data);
       dispatch({ type: Types.CATEGORYLIST_SUCCESS, payload: data });
     })
     .catch((error) => {
       console.log("Error fetching categories:", error);
     });
+};
+
+
+// cart Actions 
+export const addCartItem = (product) => (dispatch, getState) => {
+  dispatch({ type: Types.CART_ADD_ITEM, payload: product });
+  dispatch(updateCartTotal());
+};
+
+export const removeCartItem = (productId) => (dispatch, getState) => {
+  dispatch({ type: Types.CART_REMOVE_ITEM, payload: productId });
+  dispatch(updateCartTotal());
+};
+
+export const increaseCartItemQuantity = (productId) => (dispatch, getState) => {
+  dispatch({ type: Types.CART_ITEM_INCREASE_QUANTITY, payload: productId });
+  dispatch(updateCartTotal());
+};
+
+export const decreaseCartItemQuantity = (productId) => (dispatch, getState) => {
+  dispatch({ type: Types.CART_ITEM_DECREASE_QUANTITY, payload: productId });
+  dispatch(updateCartTotal());
+};
+
+export const updateCartTotal = () => (dispatch, getState) => {
+  const { cart } = getState();
+  const totalAmount = cart.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+  dispatch({ type: Types.CART_TOTAL_AMOUNT, payload: totalAmount });
 };

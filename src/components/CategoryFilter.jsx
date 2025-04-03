@@ -4,67 +4,53 @@ import {
   getCategoryList,
   getCategoryType,
 } from "../redux/actions/productActions";
+import classes from "./styles.module.scss";
 export const CategoryFilter = () => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getCategoryList());
   }, [dispatch]);
 
-  // const categories = [
-  //   { name: "TV", value: "tv" },
-  //   { name: "Audio", value: "audio" },
-  //   { name: "Laptop", value: "laptop" },
-  //   { name: "Mobile", value: "mobile" },
-  //   { name: "Appliances", value: "appliances" },
-  // ];
   const categoryList = useSelector(
-    (state) => state?.categoryList?.payload?.categories || []
+    (state) => state?.categoryList?.payload || []
   );
+  const categories = ["All", ...categoryList];
 
-  const handleCheckboxChange = (event) => {
-    const category = event.target.value;
-    if (selectedCategory === category) {
-      setSelectedCategory("");
-      window?.location?.reload();
+  const handleCategoryClick = (category) => {
+    console.log(category);
+
+    setSelectedCategory(category);
+    if (category === "All") {
+      window.location.reload();
+      dispatch(getCategoryList());
     } else {
-      setSelectedCategory(category);
       dispatch(getCategoryType(category));
     }
   };
-
   return (
-    <div>
-      <h3>Filter By Categories</h3>
-      <form>
-        {/* {categories.map((category) => (
-          <div key={category?.value}>
-            <label>
-              <input
-                type="checkbox"
-                value={category.value}
-                checked={selectedCategory === category.value}
-                onChange={(type) => handleCheckboxChange(type)}
-              />
-              {category?.name}
-            </label>
-          </div>
-        ))} */}
-        {categoryList.map((category) => (
-          <div key={category}>
-            <label>
-              <input
-                type="checkbox"
-                value={category}
-                checked={selectedCategory === category} // Only one can be selected
-                onChange={handleCheckboxChange}
-              />
-              {category.charAt(0).toUpperCase() + category.slice(1)}{" "}
-              {/* Capitalize first letter */}
-            </label>
-          </div>
-        ))}
-      </form>
+    <div className={classes.categories}>
+      {categories.map((category) => (
+        <button
+          key={category}
+          onClick={() => handleCategoryClick(category)}
+          style={{
+            padding: "10px 15px",
+            borderRadius: "5px",
+            border: "1px solid",
+            cursor: "pointer",
+            backgroundColor: "white" ,
+            borderColor:
+              selectedCategory === category ? "#ff6f91" : "gray",
+            color: selectedCategory === category ? "#ff6f91" : "black",
+            fontWeight: selectedCategory === category ? "bold" : "normal",
+           
+          }}
+        >
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </button>
+      ))}
     </div>
   );
 };

@@ -3,11 +3,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import classes from "./styles.module.scss";
 export const ProductComponent = () => {
-  const products = useSelector((state) => state?.allProducts);
-
+  const products = useSelector((state) => state?.allProducts?.data);
   return (
     <section className={classes.allProductList}>
-      {products?.data?.products?.map((product) => {
+      {products?.map((product) => {
         return (
           <Link to={`/product/${product?.id}`}>
             <div className={classes.allProductList_eachProduct}>

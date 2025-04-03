@@ -1,17 +1,18 @@
 import { combineReducers } from "redux";
 import { fetchProductsReducer, selectedProductReducer } from "./productReducer";
-import { wishListReducer } from "./wishListReducer";
+
 import {
   categoryListReducer,
-  // categoryListReducer,
   categoryTypeReducer,
 } from "./categoryTypeReducer";
+
+import {cartReducer} from "./cartReducer";
 
 const rootReducer = combineReducers({
   allProducts: fetchProductsReducer,
   selectedProduct: selectedProductReducer,
-  wishlist: wishListReducer,
   categoryList: categoryListReducer,
   category: categoryTypeReducer,
+  cart: cartReducer,
 });
 export default rootReducer;
