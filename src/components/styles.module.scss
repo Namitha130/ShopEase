@@ -89,7 +89,7 @@ $border-color: #ddd;
   }
   &_eachProduct {
     width: 220px !important;
-    height: 280px;
+    height: auto;
     padding: 20px;
     border-radius: 30px;
     box-shadow: 1px 1px 5px #e692a5;
@@ -163,7 +163,7 @@ $border-color: #ddd;
       color: white;
       text-align: center;
       background-color: #ff6f91;
-      padding: 5px 80px;
+      padding: 5px auto;
       font-size: 16px;
       color: white;
       font-weight: bold;
@@ -172,6 +172,24 @@ $border-color: #ddd;
       i {
         margin-right: 10px;
         font-size: 20px;
+      }
+    }
+    &__removeFromCart{
+      width: 300px;
+      height: 45px;
+      border: 1px solid #ff6f91;
+      color:  #ff6f91;
+      text-align: center;
+      background-color: white;
+      padding: 5px auto;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      i {
+        margin-right: 10px;
+        font-size: 20px;
+        color: #ff6f91 !important;
       }
     }
   }

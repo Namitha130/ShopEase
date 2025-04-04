@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getCategoryList,
   getCategoryType,
+  getProducts
 } from "../redux/actions/productActions";
 import classes from "./styles.module.scss";
 export const CategoryFilter = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getCategoryList());
+    dispatch(getProducts());
   }, [dispatch]);
 
   const categoryList = useSelector(
@@ -19,12 +20,10 @@ export const CategoryFilter = () => {
   const categories = ["All", ...categoryList];
 
   const handleCategoryClick = (category) => {
-    console.log(category);
 
     setSelectedCategory(category);
     if (category === "All") {
-      window.location.reload();
-      dispatch(getCategoryList());
+      dispatch(getProducts());
     } else {
       dispatch(getCategoryType(category));
     }

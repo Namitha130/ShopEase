@@ -95,6 +95,5 @@ export const decreaseCartItemQuantity = (productId) => (dispatch, getState) => {
 export const updateCartTotal = () => (dispatch, getState) => {
   const { cart } = getState();
   const totalAmount = cart.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-
   dispatch({ type: Types.CART_TOTAL_AMOUNT, payload: totalAmount });
 };
